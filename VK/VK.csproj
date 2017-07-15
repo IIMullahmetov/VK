@@ -95,10 +95,36 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Models\Entities\Music.cs" />
+    <Compile Include="Models\Entities\News.cs" />
+    <Compile Include="Models\Entities\ShortMessage.cs" />
+    <Compile Include="Models\FriendsRepository.cs" />
+    <Compile Include="Models\Parametrs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AuthenticationPage.xaml.cs">
+      <DependentUpon>AuthenticationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FriendsPage.xaml.cs">
+      <DependentUpon>FriendsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GroupsPage.xaml.cs">
+      <DependentUpon>GroupsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\MessagesPage.xaml.cs">
+      <DependentUpon>MessagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewsPage.xaml.cs">
+      <DependentUpon>NewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -115,21 +141,64 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Users.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.2.3</Version>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <Version>1.1.2</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>5.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="ModernDev.InTouch">
+      <Version>1.0.27</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="VkNet.UWP">
+      <Version>1.25.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\AuthenticationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FriendsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GroupsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

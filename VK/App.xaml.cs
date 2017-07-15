@@ -1,35 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using VkNet;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace VK
 {
-    /// <summary>
-    /// Обеспечивает зависящее от конкретного приложения поведение, дополняющее класс Application по умолчанию.
-    /// </summary>
-    sealed partial class App : Application
+	/// <summary>
+	/// Обеспечивает зависящее от конкретного приложения поведение, дополняющее класс Application по умолчанию.
+	/// </summary>
+	sealed partial class App : Application
     {
-        /// <summary>
-        /// Инициализирует одноэлементный объект приложения.  Это первая выполняемая строка разрабатываемого
-        /// кода; поэтому она является логическим эквивалентом main() или WinMain().
-        /// </summary>
-        public App()
+		private static VkApi api = new VkApi();
+		public static VkApi Api => api;
+		public static ulong AppId => 6086101;
+		public static string Token { get; set; }
+		/// <summary>
+		/// Инициализирует одноэлементный объект приложения.  Это первая выполняемая строка разрабатываемого
+		/// кода; поэтому она является логическим эквивалентом main() или WinMain().
+		/// </summary>
+		public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+			InitializeComponent();
+			Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -63,36 +60,59 @@ namespace VK
             {
                 if (rootFrame.Content == null)
                 {
-                    // Если стек навигации не восстанавливается для перехода к первой странице,
-                    // настройка новой страницы путем передачи необходимой информации в качестве параметра
-                    // параметр
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
+					// Если стек навигации не восстанавливается для перехода к первой странице,
+					// настройка новой страницы путем передачи необходимой информации в качестве параметра
+					// параметр
+					//if (!api.IsAuthorized)
+					//{
+					//	rootFrame.Navigate(typeof(Views.AuthenticationPage), e.Arguments);
+					//}
+					//else
+					//{
+					StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+					string token = null;
+					try
+					{
+						token = File.ReadAllText(localFolder + "Token.txt");
+					}
+					catch(FileNotFoundException excep)
+					{
+						File.Create(localFolder + "Token.txt", 32, FileOptions.Asynchronous);
+					}
+					
+					if (token != null)
+					{
+						rootFrame.Navigate(typeof(Views.MainPage), e.Arguments);
+					}
+					else
+					{
+						rootFrame.Navigate(typeof(Views.AuthenticationPage), e.Arguments);
+					}
+
+					//}
+				}
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();
             }
         }
 
-        /// <summary>
-        /// Вызывается в случае сбоя навигации на определенную страницу
-        /// </summary>
-        /// <param name="sender">Фрейм, для которого произошел сбой навигации</param>
-        /// <param name="e">Сведения о сбое навигации</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
+		/// <summary>
+		/// Вызывается в случае сбоя навигации на определенную страницу
+		/// </summary>
+		/// <param name="sender">Фрейм, для которого произошел сбой навигации</param>
+		/// <param name="e">Сведения о сбое навигации</param>
+		void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
-        /// <summary>
-        /// Вызывается при приостановке выполнения приложения.  Состояние приложения сохраняется
-        /// без учета информации о том, будет ли оно завершено или возобновлено с неизменным
-        /// содержимым памяти.
-        /// </summary>
-        /// <param name="sender">Источник запроса приостановки.</param>
-        /// <param name="e">Сведения о запросе приостановки.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+		/// <summary>
+		/// Вызывается при приостановке выполнения приложения.  Состояние приложения сохраняется
+		/// без учета информации о том, будет ли оно завершено или возобновлено с неизменным
+		/// содержимым памяти.
+		/// </summary>
+		/// <param name="sender">Источник запроса приостановки.</param>
+		/// <param name="e">Сведения о запросе приостановки.</param>
+		private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+			SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Сохранить состояние приложения и остановить все фоновые операции
             deferral.Complete();
         }
